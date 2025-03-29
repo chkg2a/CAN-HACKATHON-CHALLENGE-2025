@@ -58,7 +58,6 @@ const PricingSection = () => {
         <p className="text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
           Choose the plan that fits your needs. All plans include access to our core features.
         </p>
-        
         <div className="grid md:grid-cols-3 gap-8">
           {plans.map((plan, index) => (
             <div
