@@ -9,7 +9,7 @@ const NavBar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <nav className="px-4 xl:px-32 relative border-b-2 shadow-xl bg-white w-full">
+    <nav className="px-4 xl:px-48 relative border-b-2 shadow-xl bg-white w-full">
       <div className="flex justify-between items-center py-4">
         <Link to="/" className="font-bold text-2xl text-[var(--primary)]">
           CANHACK

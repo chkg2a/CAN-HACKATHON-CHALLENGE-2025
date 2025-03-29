@@ -1,13 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --primary: #ffffff;
+  --primary: #2563eb;
   --secondary: #e5e7eb;
   --background: #ffffff;
-  --tertiary: #2563eb;
+  --text-color: #4B5563;
   --footer: #111827;
-}
-
-body {
-  background: var(--background);
 }
