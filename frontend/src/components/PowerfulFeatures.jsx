@@ -15,9 +15,9 @@ const PowerfulFeatures = () => {
     <div className="py-16 text-center bg-[var(--secondary)]">
       <h2 className="text-2xl font-bold text-black">Powerful Features</h2>
 
-      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto">
         {features.map((feature, index) => (
-          <div key={index} className="bg-white shadow-md rounded-lg p-6 flex items-start space-x-4">
+          <div key={index} className="bg-white shadow-md rounded-lg p-15 flex flex-col items-center space-x-4">
             <div className="bg-purple-100 p-3 rounded-full">{feature.icon}</div>
             <div className="text-left">
               <h3 className="font-bold">{feature.title}</h3>
