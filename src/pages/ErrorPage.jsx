@@ -20,7 +20,7 @@ const ErrorPage = () => {
       </main>
 
       {/* Footer */}
-      <footer className="absolute bottom-5 text-gray-500 text-xs flex justify-between w-full px-10">
+      <footer className="absolute bottom-5 text-gray-500 text-xs flex justify-center w-full px-10">
         <span>F-SOCIETY © 2025</span>
       </footer>
     </div>
