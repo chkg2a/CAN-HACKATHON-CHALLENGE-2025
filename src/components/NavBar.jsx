@@ -19,7 +19,7 @@ const NavBar = () => {
           {sections.map((item) => (
             <Link
               key={item}
-              to={`#${item.toLowerCase().replace(/ /g, "-")}`}
+              to={`/${item.toLowerCase().replace(/ /g, "-")}`}
               className="text-gray-600 hover:text-[var(--primary)]"
             >
               {item}
@@ -51,7 +51,7 @@ const NavBar = () => {
               {sections.map((item) => (
                 <Link
                   key={item}
-                  to={`#${item.toLowerCase().replace(/ /g, "-")}`}
+                  to={`/${item.toLowerCase().replace(/ /g, "-")}`}
                   className="text-gray-700 text-lg hover:text-[var(--primary)]"
                   onClick={() => setSidebarOpen(false)}
                 >
