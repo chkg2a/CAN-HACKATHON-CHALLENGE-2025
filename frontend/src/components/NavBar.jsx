@@ -8,7 +8,6 @@ const sections = [
   "Home",
   "Resume-Sender",
   "Notes-Summarizer",
-  "Study-Plans",
   "About",
 ];
 
@@ -17,7 +16,7 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="px-4 xl:px-48 relative border-b-2 shadow-xl bg-white w-full">
+    <nav className="px-8 xl:px-48 relative border-b-2 shadow-xl bg-white w-full">
       <div className="flex justify-between items-center py-4">
         <Link to="/" className="font-bold text-2xl text-[var(--primary)]">
           <img src="/images/logo.svg" alt="Logo" className="s-24" />
@@ -35,11 +34,15 @@ const NavBar = () => {
           ))}
         </div>
 
-        <div>
-          <Button buttonText="Login" primary={true} onClick={(e)=> {
-            e.preventDefault();
-            navigate("/login");
-          }}/>
+        <div className="hidden md:flex">
+          <Button
+            buttonText="Login"
+            primary={true}
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/login");
+            }}
+          />
         </div>
         <div className="md:hidden">
           <button
@@ -72,6 +75,14 @@ const NavBar = () => {
                   {item}
                 </Link>
               ))}
+              <Button
+                buttonText="Login"
+                primary={true}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/login");
+                }}
+              />
             </nav>
           </div>
         </div>
