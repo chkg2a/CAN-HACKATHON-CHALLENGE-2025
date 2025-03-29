@@ -8,6 +8,7 @@ const sections = [
   "Home",
   "Resume-Sender",
   "Notes-Summarizer",
+  "Study-Plans",
   "About",
 ];
 
