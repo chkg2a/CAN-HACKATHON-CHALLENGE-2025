@@ -29,7 +29,7 @@ const Testimonials = () => {
     <div className="py-16 text-center bg-white">
       <h2 className="text-2xl font-bold text-black">What Our Users Say</h2>
 
-      <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
+      <div className="py-10 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
         {testimonials.map((user, index) => (
           <div key={index} className={`p-6 ${user.bgColor} rounded-lg shadow-md`}>
             <div className="flex items-center space-x-4">

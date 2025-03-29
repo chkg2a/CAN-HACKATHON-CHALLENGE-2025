@@ -3,10 +3,10 @@ import { FaClipboardList, FaMagic, FaPaperPlane, FaUpload, FaBrain, FaShareSquar
 
 const HowGenieWorks = () => {
   return (
-    <div className="py-16 text-center bg-white">
+    <div className="px-8 py-16 text-center bg-white">
       <h2 className="text-2xl font-bold text-black">How Genie Works</h2>
       
-      <div className="mt-10 flex flex-col md:flex-row justify-center gap-8">
+      <div className="py-10 flex flex-col md:flex-row justify-center gap-8">
         
         {/* Left Box */}
         <div className="bg-purple-100 p-6 rounded-lg shadow-md w-full md:w-1/3 text-left">
