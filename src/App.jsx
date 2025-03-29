@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import ResumeSender from "./pages/ResumeSender";
+import ErrorPage from "./pages/ErrorPage"; // 404 error page
 import "./App.css";
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/resume-sender" element={<ResumeSender />} />
+            <Route path="*" element={<ErrorPage />} /> {/* Catch-all route for 404 */}
           </Routes>
         </BrowserRouter>
       </div>
