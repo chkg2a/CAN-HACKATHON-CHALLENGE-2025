@@ -149,10 +149,22 @@ const About = () => {
 
         <div className="flex flex-wrap justify-center gap-10">
           {[
-            { name: "Prashar", role: "Backend Dev", image: "/images/dp1.jpg" },
-            { name: "Nikhil", role: "Frontend Dev", image: "/images/dp2.jpg" },
+            { 
+              name: "Prashar", 
+              role: "Backend Dev", 
+              image: "/images/dp1.jpg" 
+            },
+            { 
+              name: "Nikhil", 
+              role: "Frontend Dev", 
+              image: "/images/dp2.jpg" },
             {
               name: "Chingkheinganba Haobam",
+              role: "Frontend Dev",
+              image: "/images/dp3.jpg",
+            },
+            {
+              name: "Tolen Sorokhaibam",
               role: "Frontend Dev",
               image: "/images/dp3.jpg",
             },
