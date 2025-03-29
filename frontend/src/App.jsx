@@ -4,6 +4,8 @@ import ResumeSender from "./pages/ResumeSender";
 import ErrorPage from "./pages/ErrorPage"; // 404 error page
 import NotesSummarizer from "./pages/NotesSummarizer";
 import StudyPlans from "./pages/StudyPlans";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
 import "./App.css";
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
             <Route path="/resume-sender" element={<ResumeSender />} />
             <Route path="/notes-summarizer" element={<NotesSummarizer />} />
             <Route path="/study-plans" element={<StudyPlans />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
             <Route path="*" element={<ErrorPage />} /> {/* Catch-all route for 404 */}
           </Routes>
         </BrowserRouter>
