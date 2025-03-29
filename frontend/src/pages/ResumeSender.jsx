@@ -24,7 +24,7 @@ const ResumeSender = () => {
   });
 
   // OpenRouter state
-  const [selectedModel, setSelectedModel] = useState('anthropic/claude-3-5-sonnet');
+  const [selectedModel, setSelectedModel] = useState('google/gemini-2.0-flash-exp:free');
   const [isGeneratingSummary, setIsGeneratingSummary] = useState(false);
   const [summary, setSummary] = useState('');
   const [emailTemplate, setEmailTemplate] = useState('');
@@ -445,19 +445,6 @@ Education: ${formData.education}
           </div>
 
           <div className="bg-white p-8 rounded-md shadow-lg border border-gray-300">
-            {/* Model Selection */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Select AI Model for Processing</label>
-              <select
-                value={selectedModel}
-                onChange={(e) => setSelectedModel(e.target.value)}
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {availableModels.map(model => (
-                  <option key={model.id} value={model.id}>{model.name}</option>
-                ))}
-              </select>
-            </div>
 
             {activeTab === "upload" ? (
               // File upload view
@@ -692,7 +679,7 @@ Education: ${formData.education}
 
           {/* Generated Summary */}
           {summary && (
-            <div className="mt-8 bg-white p-6 rounded-md shadow-lg border border-gray-300">
+            <div className="mt-8 bg-white p-6 rounded-md shadow-lg border border-gray-300 text-black">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="font-medium text-gray-700 text-lg">Resume Summary</h3>
                 <button 
@@ -771,7 +758,7 @@ Education: ${formData.education}
                   <Copy className="w-4 h-4" />
                 </button>
               </div>
-              <div className="border rounded-lg p-4 bg-white">
+              <div className="border rounded-lg p-4 bg-white text-black">
                 <pre className="whitespace-pre-wrap text-sm font-sans">{emailTemplate}</pre>
               </div>
               <div className="mt-4 flex justify-end">
