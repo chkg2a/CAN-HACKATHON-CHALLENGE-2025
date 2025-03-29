@@ -10,11 +10,10 @@ const ErrorPage = () => {
           4<span className="text-lime-400">👁</span>4
         </h1>
         <p className="text-lg text-gray-300 mt-2">
-          SORRY, THERE'S{" "}
-          <span className="text-lime-400 font-bold">NOTHING HERE</span>
+          SORRY, THERE'S <span className="text-lime-400 font-bold">NOTHING HERE</span>
         </p>
         <Link to="/">
-          <button className="mt-6 bg-blue-400 text-black px-6 py-2 rounded text-sm font-bold hover:bg-lime-500">
+          <button className="mt-6 bg-blue-600 text-black px-6 py-2 rounded text-sm font-bold hover:bg-lime-500">
             GO HOME
           </button>
         </Link>
@@ -22,14 +21,7 @@ const ErrorPage = () => {
 
       {/* Footer */}
       <footer className="absolute bottom-5 text-gray-500 text-xs flex justify-between w-full px-10">
-        <span>9/1999</span>
-        <span>F-SOCIETY © 2022</span>
-        <span>
-          CODED BY{" "}
-          <a href="#" className="text-lime-400">
-            NAME
-          </a>
-        </span>
+        <span>F-SOCIETY © 2025</span>
       </footer>
     </div>
   );
