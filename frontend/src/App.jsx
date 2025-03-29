@@ -6,10 +6,16 @@ import NotesSummarizer from "./pages/NotesSummarizer";
 import StudyPlans from "./pages/StudyPlans";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import { useEffect } from "react";
 import About from "./pages/About";
 import "./App.css";
+import useAuthStore from "./store/authStore";
 
 function App() {
+  const {checkSession}=useAuthStore();
+  useEffect(() => {
+    checkSession();
+  }, [checkSession]);
   return (
     <div className="h-screen flex justify-center w-screen">
       <div className="w-full">
