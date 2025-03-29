@@ -166,12 +166,12 @@ const About = () => {
             {
               name: "Tolen Sorokhaibam",
               role: "Frontend Dev",
-              image: "/images/dp3.jpg",
+              image: "/images/dp4.jpg",
             },
             {
               name: "Thingbaijam Pareihanba",
               role: "UI/UX Designer",
-              image: "/images/dp4.jpg",
+              image: "/images/dp5.jpg",
             },
           ].map((member, index) => (
             <div key={index} className="text-center">

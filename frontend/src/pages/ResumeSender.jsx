@@ -120,8 +120,6 @@ const ResumeSender = () => {
       chatInstance.sendMessage(messageData);
       return true;
     } catch (err) {
-      console.error("Failed to send message to n8n:", err);
-      setError("Failed to send message to n8n.");
       return false;
     }
   };

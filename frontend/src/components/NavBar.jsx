@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
-import "../css/NavBar.css";
 import Button from "./Button";
+import useAuthStore from "../store/authStore";
 
 const sections = [
   "Home",
@@ -15,6 +15,7 @@ const sections = [
 const NavBar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
+  const {isAuth} = useAuthStore
 
   return (
     <nav className="px-8 xl:px-48 relative border-b-2 shadow-xl bg-white w-full">
@@ -34,17 +35,18 @@ const NavBar = () => {
             </Link>
           ))}
         </div>
-
-        <div className="hidden md:flex">
-          <Button
-            buttonText="Login"
-            primary={true}
-            onClick={(e) => {
-              e.preventDefault();
-              navigate("/login");
-            }}
-          />
-        </div>
+        {isAuth && (
+          <div className="hidden md:flex">
+            <Button
+              buttonText="Login"
+              primary={true}
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/login");
+              }}
+            />
+          </div>
+        )}
         <div className="md:hidden">
           <button
             className="md:hidden text-gray-600"
