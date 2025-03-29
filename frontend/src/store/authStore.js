@@ -6,13 +6,14 @@ axios.defaults.withCredentials = true;
 
 const useAuthStore=create((set)=>({
     user:null,
+    isAuth:false,
     login:async (email,password)=>{
         try {
             const res=await axios.post("http://localhost:3000/api/v1/auth/login",{
                 email,
                 password
             });
-        set({user:res.data});
+        set({user:res.data,isAuth:true});
         return res;
         } catch (error) {
             console.log(error.message);
@@ -26,7 +27,7 @@ const useAuthStore=create((set)=>({
                 password,
                 name
             });
-            set({user:res.data});
+            set({user:res.data,isAuth:true});
             return res.data;
         } catch (error) {
             console.log(error);
@@ -36,8 +37,9 @@ const useAuthStore=create((set)=>({
     checkSession:async()=>{
         try {
             const res=await axios.get("http://localhost:3000/api/v1/auth/checkAuth");
-            console.log(res)
-            set({user:res.data});
+            console.log(res);
+            
+            set({user:res.data,isAuth:true});
             return res.data;
         } catch (error) {
             console.log(error);
