@@ -5,19 +5,19 @@ import Button from "../components/Button";
 import { FaRegUserCircle } from "react-icons/fa";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-
+import useAuthStore from "../store/authStore";
 const Login = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const {login}=useAuthStore();
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await register(email, name, password);
+      const res = await login(email, password);
       navigate("/resume-sender");
     } catch (error) {
       const errorMessage =

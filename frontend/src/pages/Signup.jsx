@@ -5,13 +5,14 @@ import Button from "../components/Button";
 import { FaRegUserCircle } from "react-icons/fa";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import useAuthStore from "../store/authStore";
 
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const {register}=useAuthStore();
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
