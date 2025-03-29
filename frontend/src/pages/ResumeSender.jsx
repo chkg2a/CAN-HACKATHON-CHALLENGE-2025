@@ -236,7 +236,7 @@ const ResumeSender = () => {
               )
             ) : (
               // Manual form entry view
-              <form onSubmit={handleFormSubmit} className="space-y-6">
+              <form onSubmit={handleFormSubmit} className="space-y-6  text-black">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-medium">Enter Resume Details</h3>
                   <FileCode size={24} className="text-blue-500" />
