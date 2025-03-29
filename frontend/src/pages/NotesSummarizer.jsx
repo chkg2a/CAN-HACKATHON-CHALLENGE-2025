@@ -18,7 +18,7 @@ const NotesSummarizer = () => {
 
   // ChatApp state
   const [conversationHistory, setConversationHistory] = useState([]);
-  const [selectedModel, setSelectedModel] = useState('anthropic/claude-3-5-sonnet');
+  const [selectedModel, setSelectedModel] = useState('google/gemini-2.0-flash-exp:free');
   const [fileContent, setFileContent] = useState('');
   const [responseText, setResponseText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -257,19 +257,15 @@ const NotesSummarizer = () => {
   
   const availableModels = [
     { id: 'google/gemini-2.0-flash-exp:free', name: 'Gemini 2.0 Flash' },
-    { id: 'anthropic/claude-3-5-sonnet', name: 'Claude 3.5 Sonnet' },
-    { id: 'openai/gpt-4o', name: 'GPT-4o' },
-    { id: 'google/gemini-1.5-pro', name: 'Gemini 1.5 Pro' },
-    { id: 'anthropic/claude-3-opus', name: 'Claude 3 Opus' },
   ];
 
   return (
     <>
       <NavBar />
-      <div className="bg-gray-50 min-h-screen py-4 md:py-12">
+      <div className="bg-gray-50 min-h-screen py-4 md:py-12 text-black">
         <div className="w-full max-w-4xl mx-auto p-6">
-          <h2 className="text-4xl font-bold mb-4 text-black">
-            AI Notes Summarizer
+          <h2 className="text-4xl font-bold mb-4">
+            Genie Notes Summarizer
           </h2>
 
           {/* Tab navigation */}
@@ -299,21 +295,7 @@ const NotesSummarizer = () => {
           </div>
 
           {/* Main Content */}
-          <div className="bg-white p-8 rounded-md shadow-lg border border-gray-300">
-            {/* Model Selection */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Select AI Model</label>
-              <select
-                value={selectedModel}
-                onChange={(e) => setSelectedModel(e.target.value)}
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {availableModels.map(model => (
-                  <option key={model.id} value={model.id}>{model.name}</option>
-                ))}
-              </select>
-            </div>
-
+          <div className="bg-white p-8 rounded-md shadow-lg border border-gray-300 ">
             {activeTab === "upload" ? (
               // File upload view
               !file ? (
@@ -353,7 +335,7 @@ const NotesSummarizer = () => {
                   {error && <p className="text-red-500 mt-4">{error}</p>}
                 </div>
               ) : (
-                <div className="border rounded-lg p-6">
+                <div className="rounded-lg p-6">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-lg font-medium">Document Ready</h3>
                     <button
@@ -486,21 +468,16 @@ const NotesSummarizer = () => {
             {conversationHistory.length > 0 && (
               <div className="mb-6 bg-white p-6 rounded-md shadow-lg border border-gray-300">
                 <h3 className="font-medium text-gray-700 mb-4 text-lg">Summary History</h3>
-                <div className="border rounded-lg max-h-96 overflow-y-auto p-4 bg-gray-50">
+                <div className="rounded-lg max-h-96 overflow-y-auto p-4 bg-gray-50">
                   {conversationHistory.map((msg, index) => (
-                    <div key={index} className={`mb-4 ${msg.role === 'user' ? 'pl-2 border-l-4 border-blue-500' : 'pl-2 border-l-4 border-green-500'}`}>
-                      <div className="flex justify-between items-start">
-                        <span className="font-bold text-sm mb-1">
-                          {msg.role === 'user' ? `Document: ${msg.name || 'Notes'}` : 'AI Summary'}
-                        </span>
+                    <div key={index} className={`mb-4 flex justify-between ${msg.role === 'user' ? 'pl-2 border-l-4 border-blue-500 hidden' : ''}`}>
+                      <pre className="whitespace-pre-wrap text-md font-sans">{msg.content}</pre>
                         <button 
                           onClick={() => copyToClipboard(msg.content)}
                           className="text-gray-500 hover:text-gray-700"
                         >
                           <Copy className="w-4 h-4" />
                         </button>
-                      </div>
-                      <pre className="whitespace-pre-wrap text-sm font-sans">{msg.content}</pre>
                     </div>
                   ))}
                   <div ref={chatEndRef} />

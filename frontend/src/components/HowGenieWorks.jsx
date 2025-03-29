@@ -4,7 +4,7 @@ import { FaClipboardList, FaMagic, FaPaperPlane, FaUpload, FaBrain, FaShareSquar
 const HowGenieWorks = () => {
   return (
     <div className="py-16 text-center bg-white">
-      <h2 className="text-2xl font-bold">How Genie Works</h2>
+      <h2 className="text-2xl font-bold text-black">How Genie Works</h2>
       
       <div className="mt-10 flex flex-col md:flex-row justify-center gap-8">
         
