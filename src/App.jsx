@@ -13,6 +13,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/resume-sender" element={<ResumeSender />} />
+            <Route path="/notes-summarizer" element={<ResumeSender />} />
             <Route path="*" element={<ErrorPage />} /> {/* Catch-all route for 404 */}
           </Routes>
         </BrowserRouter>

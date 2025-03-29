@@ -3,7 +3,7 @@ import { Upload, File, X, Check, FileText } from "lucide-react";
 import NavBar from "../components/NavBar";
 import Button from "../components/Button";
 
-const ResumeSender = () => {
+const NotesSummarizer = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [file, setFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -96,7 +96,7 @@ const ResumeSender = () => {
       <div className="bg-[var(--secondary)]">
         <div className="w-full  max-w-2xl mx-auto p-6 rounded-full">
           <h2 className="text-4xl font-bold mb-4 text-black">
-            Extract and Send Resumes
+            Create your Notes Summarizer
           </h2>
           <div className="border-2 border-gray-300 rounded-full shadow-lg">
             <div className="w-full max-w-2xl mx-auto p-6  bg-white p-8 rounded-md">
@@ -187,8 +187,13 @@ const ResumeSender = () => {
             <Button buttonText="Cancel" />
             <Button buttonText="Generate Summary" primary={true} />
           </div>
-          <div> {/* Placeholder for the generated summary */}
-            <img/>
+          <div>
+            <h2 className="text-4xl font-bold mb-4 text-black">
+              Create your Notes Summarizer
+            </h2>
+            <div className="border-2 border-gray-300 rounded-full shadow-lg">
+              <div className="w-full max-w-2xl mx-auto p-6  bg-white p-8 rounded-md"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -196,4 +201,4 @@ const ResumeSender = () => {
   );
 };
 
-export default ResumeSender;
+export default NotesSummarizer;
