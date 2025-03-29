@@ -10,10 +10,10 @@ const Footer = () => {
       <div className="p-4 grid grid-cols-1 md:grid-cols-3 md:px-32 md:py-14 gap-8 md:gap-0">
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl font-bold text-[var(--primary)]">
-            CANHCK
+            GENIE
           </h1>
           <p className="text-gray-400 text-sm">
-            Hello world
+            Your magic friend to generate resumes, apply for jobs, and summarize notes
           </p>
         </div>
         <div className="flex flex-col gap-2">
@@ -49,7 +49,7 @@ const Footer = () => {
         <div className="w-full mx-auto h-[1px] bg-gradient-to-r from-transparent via-gray-400 to-transparent" />
       </div>
       <div className="flex justify-between items-center p-4 md:px-32 md:py-10 text-gray-400">
-        <p>© 2025 NeristStore. All rights reserved.</p>
+        <p>© 2025 Genie. All rights reserved.</p>
         <div className="gap-4 flex">
           <FaWhatsapp size={24} />
           <CiMail size={24} />

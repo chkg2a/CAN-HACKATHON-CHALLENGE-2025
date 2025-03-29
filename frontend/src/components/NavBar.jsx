@@ -12,7 +12,7 @@ const NavBar = () => {
     <nav className="px-4 xl:px-48 relative border-b-2 shadow-xl bg-white w-full">
       <div className="flex justify-between items-center py-4">
         <Link to="/" className="font-bold text-2xl text-[var(--primary)]">
-          CANHACK
+          <img src="/images/logo.svg" alt="Logo" className="s-24"/>
         </Link>
 
         <div className="hidden md:flex gap-8">
