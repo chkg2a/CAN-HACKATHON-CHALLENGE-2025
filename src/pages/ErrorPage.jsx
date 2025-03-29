@@ -13,7 +13,7 @@ const ErrorPage = () => {
           SORRY, THERE'S <span className="text-lime-400 font-bold">NOTHING HERE</span>
         </p>
         <Link to="/">
-          <button className="mt-6 bg-lime-400 text-black px-6 py-2 rounded text-sm font-bold hover:bg-lime-500">
+          <button className="mt-6 bg-blue-400 text-black px-6 py-2 rounded text-sm font-bold hover:bg-lime-500">
             GO HOME
           </button>
         </Link>
