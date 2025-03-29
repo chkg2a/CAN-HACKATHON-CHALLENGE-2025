@@ -172,15 +172,14 @@ const ResumeSender = () => {
                   <p className="text-sm text-gray-500 mb-4">
                     Supports PDF and Word documents (.pdf, .doc, .docx)
                   </p>
-                  <button
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+                  <Button
+                    buttonText="Select Document"
+                    primary={true}
                     onClick={(e) => {
                       e.stopPropagation();
                       handleButtonClick();
                     }}
-                  >
-                    Select Document
-                  </button>
+                  />
                   <input
                     type="file"
                     ref={fileInputRef}
