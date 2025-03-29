@@ -1,9 +1,10 @@
-import React, { useState, useRef } from "react";
-import { Upload, FileText, X, Check, User, FileCode } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { Upload, FileText, X, Check, User, FileCode, Send, RefreshCw, Copy, Mail } from "lucide-react";
 import NavBar from "../components/NavBar";
 import Button from "../components/Button";
 
 const ResumeSender = () => {
+  const [chatInstance, setChatInstance] = useState(null);
   const [activeTab, setActiveTab] = useState("upload"); // "upload" or "manual"
   const [isDragging, setIsDragging] = useState(false);
   const [file, setFile] = useState(null);
@@ -21,6 +22,40 @@ const ResumeSender = () => {
     experience: "",
     education: "",
   });
+
+  // OpenRouter state
+  const [selectedModel, setSelectedModel] = useState('anthropic/claude-3-5-sonnet');
+  const [isGeneratingSummary, setIsGeneratingSummary] = useState(false);
+  const [summary, setSummary] = useState('');
+  const [emailTemplate, setEmailTemplate] = useState('');
+  const [isGeneratingEmail, setIsGeneratingEmail] = useState(false);
+  const apiKey = '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';
+
+  // Email template options
+  const [emailTemplateType, setEmailTemplateType] = useState('standard');
+  const emailTemplateOptions = [
+    { id: 'standard', name: 'Standard Introduction' },
+    { id: 'referral', name: 'Referral-Based Application' },
+    { id: 'followUp', name: 'Follow-Up After Application' },
+    { id: 'networking', name: 'Networking Connection' },
+    { id: 'speculative', name: 'Speculative Application' }
+  ];
+
+  // Initialize n8n chat on component mount
+  useEffect(() => {
+    // Import the n8n chat library dynamically
+    import('https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js')
+      .then(module => {
+        const instance = module.createChat({
+          webhookUrl: 'https://pkwork.app.n8n.cloud/webhook/92c6d2a9-9b30-4494-b744-d7b1530fd675/chat'
+        });
+        setChatInstance(instance);
+      })
+      .catch(error => {
+        console.error("Failed to load n8n chat:", error);
+        setError("Failed to initialize chat functionality.");
+      });
+  }, []);
 
   const allowedTypes = [
     "application/pdf", // PDF
@@ -72,14 +107,57 @@ const ResumeSender = () => {
     });
   };
 
+  // Send message to n8n
+  const sendMessageToN8n = (messageData) => {
+    if (!chatInstance) {
+      console.error("Chat instance not initialized");
+      setError("Unable to send message: Chat not initialized.");
+      return false;
+    }
+
+    try {
+      // Assuming the n8n chat API has a sendMessage method
+      chatInstance.sendMessage(messageData);
+      return true;
+    } catch (err) {
+      console.error("Failed to send message to n8n:", err);
+      setError("Failed to send message to n8n.");
+      return false;
+    }
+  };
+
+  // Handle successful upload or form submission
+  const handleSuccess = () => {
+    setIsUploading(false);
+    setUploadComplete(true);
+
+    // Prepare message data based on active tab
+    const messageData = {
+      type: activeTab === "upload" ? "resume_upload" : "manual_entry",
+      timestamp: new Date().toISOString(),
+    };
+
+    if (activeTab === "upload" && file) {
+      messageData.file = {
+        name: file.name,
+        type: file.type,
+        size: file.size,
+      };
+    } else {
+      messageData.formData = formData;
+    }
+
+    // Send the message
+    sendMessageToN8n(messageData);
+  };
+
   const simulateUpload = () => {
     setIsUploading(true);
     setUploadComplete(false);
 
     // Simulate upload process
     setTimeout(() => {
-      setIsUploading(false);
-      setUploadComplete(true);
+      handleSuccess();
     }, 2000);
   };
 
@@ -91,6 +169,8 @@ const ResumeSender = () => {
     setFile(null);
     setUploadComplete(false);
     setError("");
+    setSummary("");
+    setEmailTemplate("");
   };
 
   const getFileIcon = () => {
@@ -111,9 +191,223 @@ const ResumeSender = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    // Here you would process the form data
-    setUploadComplete(true);
+    // Process the form data and send to n8n
+    handleSuccess();
   };
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text)
+      .then(() => {
+        alert('Copied to clipboard!');
+      })
+      .catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+  };
+
+  const formatResumeData = () => {
+    if (activeTab === "upload" && file) {
+      return `Resume from file: ${file.name} (${getFileTypeLabel()})`;
+    } else {
+      return `
+Name: ${formData.fullName}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Skills: ${formData.skills}
+Experience: ${formData.experience}
+Education: ${formData.education}
+      `;
+    }
+  };
+
+  const handleGenerateSummary = async () => {
+    // First, prepare the n8n summary request (keeping original functionality)
+    const summaryData = {
+      type: "summary_request",
+      timestamp: new Date().toISOString(),
+      content: activeTab === "upload" ? 
+        { fileName: file?.name, fileType: file?.type } : 
+        { candidateName: formData.fullName, skills: formData.skills }
+    };
+
+    // Send summary request to n8n
+    sendMessageToN8n(summaryData);
+
+    // Now implement OpenRouter API for AI summary generation
+    if (!uploadComplete) {
+      setError('Please upload a resume or enter resume information first.');
+      return;
+    }
+
+    setIsGeneratingSummary(true);
+    setError('');
+    setSummary('');
+
+    try {
+      const resumeData = formatResumeData();
+      
+      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+          'HTTP-Referer': window.location.origin,
+          'X-Title': 'Resume Summarizer',
+        },
+        body: JSON.stringify({
+          model: selectedModel,
+          messages: [
+            { 
+              role: 'user', 
+              content: `Please create a concise professional summary based on the following resume information. Format it as a brief paragraph followed by bullet points highlighting key skills and qualifications:\n\n${resumeData}` 
+            },
+          ],
+          stream: true,
+        }),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.error?.message || `API error: ${response.status}`);
+      }
+      
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let result = '';
+      
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        
+        const chunk = decoder.decode(value, { stream: true });
+        
+        // Parse SSE format from OpenRouter
+        const lines = chunk.split('\n');
+        let newContent = '';
+        
+        for (const line of lines) {
+          if (line.startsWith('data: ') && line !== 'data: [DONE]') {
+            try {
+              const data = JSON.parse(line.substring(6));
+              if (data.choices && data.choices[0]?.delta?.content) {
+                newContent += data.choices[0].delta.content;
+              }
+            } catch (e) {
+              console.error('Error parsing SSE:', e);
+            }
+          }
+        }
+        
+        result += newContent;
+        setSummary(prev => prev + newContent);
+      }
+      
+    } catch (err) {
+      setError(`Error: ${err.message}`);
+      console.error('Error:', err);
+    } finally {
+      setIsGeneratingSummary(false);
+    }
+  };
+
+  const handleGenerateEmail = async () => {
+    if (!summary) {
+      setError('Please generate a resume summary first.');
+      return;
+    }
+
+    setIsGeneratingEmail(true);
+    setError('');
+    setEmailTemplate('');
+
+    try {
+      const candidateName = activeTab === "upload" ? file?.name.split('.')[0] : formData.fullName;
+      const candidateSkills = activeTab === "manual" ? formData.skills : "";
+      
+      // Different email templates based on selected type
+      const promptTemplates = {
+        standard: `Create a professional email to send to a recruiter based on this resume summary. The email should be from ${candidateName}, introduce the candidate, mention their interest in relevant positions, reference the attached resume, and include a polite request for consideration. Make it concise, professional, and ready to send:\n\n${summary}`,
+        
+        referral: `Create a professional email to send to a recruiter based on this resume summary. The email should mention being referred by a current employee, introduce ${candidateName}, highlight relevant skills, reference the attached resume, and express enthusiasm for potential opportunities. Make it concise, professional, and ready to send:\n\n${summary}`,
+        
+        followUp: `Create a professional follow-up email to send to a recruiter based on this resume summary. The email should be from ${candidateName}, reference a previous application, express continued interest, mention any new achievements, and politely request an update. Make it concise, professional, and ready to send:\n\n${summary}`,
+        
+        networking: `Create a professional networking email to send to a recruiter based on this resume summary. The email should be from ${candidateName}, mention how you connected (LinkedIn, conference, etc.), highlight your background briefly, suggest a brief conversation, and be polite without being pushy. Make it concise, professional, and ready to send:\n\n${summary}`,
+        
+        speculative: `Create a professional speculative application email to send to a recruiter based on this resume summary. The email should be from ${candidateName}, express interest in the company specifically (not just any job), highlight relevant skills that match the company's needs, reference the attached resume, and request consideration for current or future opportunities. Make it concise, professional, and ready to send:\n\n${summary}`
+      };
+      
+      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+          'HTTP-Referer': window.location.origin,
+          'X-Title': 'Email Generator',
+        },
+        body: JSON.stringify({
+          model: selectedModel,
+          messages: [
+            { 
+              role: 'user', 
+              content: promptTemplates[emailTemplateType]
+            },
+          ],
+          stream: true,
+        }),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.error?.message || `API error: ${response.status}`);
+      }
+      
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let result = '';
+      
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        
+        const chunk = decoder.decode(value, { stream: true });
+        
+        // Parse SSE format from OpenRouter
+        const lines = chunk.split('\n');
+        let newContent = '';
+        
+        for (const line of lines) {
+          if (line.startsWith('data: ') && line !== 'data: [DONE]') {
+            try {
+              const data = JSON.parse(line.substring(6));
+              if (data.choices && data.choices[0]?.delta?.content) {
+                newContent += data.choices[0].delta.content;
+              }
+            } catch (e) {
+              console.error('Error parsing SSE:', e);
+            }
+          }
+        }
+        
+        result += newContent;
+        setEmailTemplate(prev => prev + newContent);
+      }
+      
+    } catch (err) {
+      setError(`Error generating email: ${err.message}`);
+      console.error('Error:', err);
+    } finally {
+      setIsGeneratingEmail(false);
+    }
+  };
+
+  const availableModels = [
+    { id: 'google/gemini-2.0-flash-exp:free', name: 'Gemini 2.0 Flash' },
+    { id: 'anthropic/claude-3-5-sonnet', name: 'Claude 3.5 Sonnet' },
+    { id: 'openai/gpt-4o', name: 'GPT-4o' },
+    { id: 'google/gemini-1.5-pro', name: 'Gemini 1.5 Pro' },
+    { id: 'anthropic/claude-3-opus', name: 'Claude 3 Opus' },
+  ];
 
   return (
     <>
@@ -151,6 +445,20 @@ const ResumeSender = () => {
           </div>
 
           <div className="bg-white p-8 rounded-md shadow-lg border border-gray-300">
+            {/* Model Selection */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Select AI Model for Processing</label>
+              <select
+                value={selectedModel}
+                onChange={(e) => setSelectedModel(e.target.value)}
+                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {availableModels.map(model => (
+                  <option key={model.id} value={model.id}>{model.name}</option>
+                ))}
+              </select>
+            </div>
+
             {activeTab === "upload" ? (
               // File upload view
               !file ? (
@@ -236,7 +544,7 @@ const ResumeSender = () => {
               )
             ) : (
               // Manual form entry view
-              <form onSubmit={handleFormSubmit} className="space-y-6  text-black">
+              <form onSubmit={handleFormSubmit} className="space-y-6 text-black">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-medium">Enter Resume Details</h3>
                   <FileCode size={24} className="text-blue-500" />
@@ -354,10 +662,130 @@ const ResumeSender = () => {
 
           <div className="w-full flex max-w-3xl justify-end gap-2 mt-8">
             <Button buttonText="Cancel" />
-            <Button buttonText="Generate Summary" primary={true} />
+            <button
+              className={`flex items-center justify-center gap-2 px-4 py-2 rounded ${
+                isGeneratingSummary || !uploadComplete 
+                  ? 'bg-gray-300 text-gray-500' 
+                  : 'bg-blue-600 text-white hover:bg-blue-700'}`}
+              onClick={handleGenerateSummary}
+              disabled={isGeneratingSummary || !uploadComplete}
+            >
+              {isGeneratingSummary ? (
+                <>
+                  <RefreshCw className="w-4 h-4 animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <Send className="w-4 h-4" />
+                  Generate Summary
+                </>
+              )}
+            </button>
           </div>
 
-          <div>{/* Placeholder for the generated summary */}</div>
+          {/* Error Message */}
+          {error && (
+            <div className="mt-6 p-3 bg-red-100 text-red-700 rounded-lg">
+              {error}
+            </div>
+          )}
+
+          {/* Generated Summary */}
+          {summary && (
+            <div className="mt-8 bg-white p-6 rounded-md shadow-lg border border-gray-300">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="font-medium text-gray-700 text-lg">Resume Summary</h3>
+                <button 
+                  onClick={() => copyToClipboard(summary)}
+                  className="text-gray-500 hover:text-gray-700 p-1"
+                >
+                  <Copy className="w-4 h-4" />
+                </button>
+              </div>
+              <div className="border rounded-lg p-4 bg-blue-50">
+                <pre className="whitespace-pre-wrap text-sm font-sans">{summary}</pre>
+              </div>
+              
+              {/* Email Template Generator Section */}
+              <div className="mt-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-medium text-gray-700 text-lg">Generate Recruiter Email</h3>
+                  <Mail className="w-5 h-5 text-blue-600" />
+                </div>
+                
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Email Template Type
+                  </label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {emailTemplateOptions.map(template => (
+                      <div 
+                        key={template.id}
+                        className={`cursor-pointer px-3 py-2 rounded-md border ${
+                          emailTemplateType === template.id
+                            ? 'bg-blue-50 border-blue-500 ring-2 ring-blue-200'
+                            : 'border-gray-300 hover:bg-gray-50'
+                        }`}
+                        onClick={() => setEmailTemplateType(template.id)}
+                      >
+                        <span className="text-sm">{template.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <button
+                  className={`flex items-center justify-center gap-2 px-4 py-2 rounded w-full ${
+                    isGeneratingEmail || !summary 
+                      ? 'bg-gray-300 text-gray-500' 
+                      : 'bg-blue-600 text-white hover:bg-blue-700'}`}
+                  onClick={handleGenerateEmail}
+                  disabled={isGeneratingEmail || !summary}
+                >
+                  {isGeneratingEmail ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin" />
+                      Creating Email...
+                    </>
+                  ) : (
+                    <>
+                      <Mail className="w-4 h-4" />
+                      Generate Email Template
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          )}
+          
+          {/* Generated Email Template */}
+          {emailTemplate && (
+            <div className="mt-6 bg-white p-6 rounded-md shadow-lg border border-gray-300">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="font-medium text-gray-700 text-lg">Recruiter Email Template</h3>
+                <button 
+                  onClick={() => copyToClipboard(emailTemplate)}
+                  className="text-gray-500 hover:text-gray-700 p-1"
+                  title="Copy to clipboard"
+                >
+                  <Copy className="w-4 h-4" />
+                </button>
+              </div>
+              <div className="border rounded-lg p-4 bg-white">
+                <pre className="whitespace-pre-wrap text-sm font-sans">{emailTemplate}</pre>
+              </div>
+              <div className="mt-4 flex justify-end">
+                <button
+                  onClick={() => window.open(`mailto:?body=${encodeURIComponent(emailTemplate)}`)}
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center gap-2"
+                >
+                  <Mail className="w-4 h-4" />
+                  Open in Email Client
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>
