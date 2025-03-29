@@ -1,18 +1,26 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import "../css/NavBar.css";
+import Button from "./Button";
 
-const sections = ["Home", "Resume-Sender", "Notes-Summarizer", "Study-Plans", "About"];
+const sections = [
+  "Home",
+  "Resume-Sender",
+  "Notes-Summarizer",
+  "Study-Plans",
+  "About",
+];
 
 const NavBar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <nav className="px-4 xl:px-48 relative border-b-2 shadow-xl bg-white w-full">
       <div className="flex justify-between items-center py-4">
         <Link to="/" className="font-bold text-2xl text-[var(--primary)]">
-          <img src="/images/logo.svg" alt="Logo" className="s-24"/>
+          <img src="/images/logo.svg" alt="Logo" className="s-24" />
         </Link>
 
         <div className="hidden md:flex gap-8">
@@ -27,6 +35,12 @@ const NavBar = () => {
           ))}
         </div>
 
+        <div>
+          <Button buttonText="Login" primary={true} onClick={(e)=> {
+            e.preventDefault();
+            navigate("/login");
+          }}/>
+        </div>
         <div className="md:hidden">
           <button
             className="md:hidden text-gray-600"
