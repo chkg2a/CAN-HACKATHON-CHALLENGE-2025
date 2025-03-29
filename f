@@ -4,7 +4,6 @@ import NavBar from "../components/NavBar";
 import Button from "../components/Button";
 
 const NotesSummarizer = () => {
-  const [summary, setSummary] = useState("f");
   const [isDragging, setIsDragging] = useState(false);
   const [file, setFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -94,13 +93,13 @@ const NotesSummarizer = () => {
   return (
     <>
       <NavBar />
-      <div className="bg-[var(--secondary)] h-screen py-4 md:py-12">
-        <div className="w-full max-w-2xl mx-auto p-6">
-          <div className="shadow-lg">
-            <div className="w-full min-w-2xl mx-auto p-6  bg-white p-8 rounded-md">
-              <h2 className="text-2xl font-bold mb-4 text-center text-black">
-                Create your Notes Summarizer
-              </h2>
+      <div className="bg-[var(--secondary)]">
+        <div className="w-full max-w-2xl mx-auto p-6 rounded-full">
+          <h2 className="text-4xl font-bold mb-4 text-black">
+            Create your Notes Summarizer
+          </h2>
+          <div className="border-2 border-gray-300 rounded-full shadow-lg">
+            <div className="w-full max-w-2xl mx-auto p-6  bg-white p-8 rounded-md">
               {!file ? (
                 <div
                   className={`border-2 border-dashed rounded-lg p-12 flex flex-col items-center justify-center text-center h-64 cursor-pointer transition-colors ${
@@ -188,22 +187,16 @@ const NotesSummarizer = () => {
             <Button buttonText="Cancel" />
             <Button buttonText="Generate Summary" primary={true} />
           </div>
-          {summary && (
-            <div className="w-full min-w-2xl mx-auto mt-8">
-              <div className="border-2 border-gray-300 rounded-full shadow-lg">
-                <div className="w-full max-w-2xl mx-auto p-6 bg-white p-8 rounded-md">
-                  <h2 className="text-2xl font-bold mb-4 text-black">
-                    Summary Results
-                  </h2>
-                  <div className="bg-[var(--secondary)] p-4 rounded-md">
-                    <h2 className="text-xl font-bold mb-2 text-black">Key points:</h2>
-                    <p className="ml-8 text-gray-700">{summary}</p>
-                  </div>
-                </div>
-              </div>
+          <div>
+            <h2 className="text-4xl font-bold mb-4 text-black">
+              Create your Notes Summarizer
+            </h2>
+            <div className="border-2 border-gray-300 rounded-full shadow-lg">
+              <div className="w-full max-w-2xl mx-auto p-6  bg-white p-8 rounded-md"></div>
             </div>
-          )}
+          </div>
         </div>
+
       </div>
     </>
   );

@@ -2,8 +2,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import ResumeSender from "./pages/ResumeSender";
 import ErrorPage from "./pages/ErrorPage"; // 404 error page
+import NotesSummarizer from "./pages/NotesSummarizer";
+import StudyPlans from "./pages/StudyPlans";
 import "./App.css";
-import ResumeExtractor from "./components/ResumeExtractor";
+
 function App() {
   return (
     <div className="h-screen flex justify-center w-screen">
@@ -13,7 +15,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/resume-sender" element={<ResumeSender />} />
-            <Route path="/notes-summarizer" element={<ResumeSender />} />
+            <Route path="/notes-summarizer" element={<NotesSummarizer />} />
+            <Route path="/study-plans" element={<StudyPlans />} />
             <Route path="*" element={<ErrorPage />} /> {/* Catch-all route for 404 */}
           </Routes>
         </BrowserRouter>

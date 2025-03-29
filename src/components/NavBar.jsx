@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import "../css/NavBar.css";
 
-const sections = ["Home", "Resume-Sender", "Study-Plans", "About"];
+const sections = ["Home", "Resume-Sender", "Notes-Summarizer", "Study-Plans", "About"];
 
 const NavBar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
