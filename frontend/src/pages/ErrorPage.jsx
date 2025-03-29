@@ -21,7 +21,7 @@ const ErrorPage = () => {
 
       {/* Footer */}
       <footer className="absolute bottom-5 text-gray-500 text-xs flex justify-center w-full px-10">
-        <span>F-SOCIETY © 2025</span>
+        <span>fsociety © 2025</span>
       </footer>
     </div>
   );

@@ -49,7 +49,7 @@ const Footer = () => {
         <div className="w-full mx-auto h-[1px] bg-gradient-to-r from-transparent via-gray-400 to-transparent" />
       </div>
       <div className="flex justify-between items-center p-4 md:px-32 md:py-10 text-gray-400">
-        <p>© 2025 Genie. All rights reserved.</p>
+        <p>fsociety © 2025 Genie. All rights reserved.</p>
         <div className="gap-4 flex">
           <FaWhatsapp size={24} />
           <CiMail size={24} />
