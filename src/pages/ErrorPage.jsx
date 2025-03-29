@@ -1,13 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar"; // Import Navbar
 
 const ErrorPage = () => {
   return (
     <div className="flex flex-col justify-center items-center h-screen bg-black text-white">
-      {/* Navbar */}
-      <Navbar />
-
       {/* Header */}
       <header className="absolute top-5 left-5 flex justify-between w-full px-10 text-gray-400 text-sm">
         <span>ALEX TKACHEV</span>
@@ -22,7 +18,7 @@ const ErrorPage = () => {
       </header>
 
       {/* Main Content */}
-      <main className="text-center mt-10">
+      <main className="text-center">
         <h1 className="text-8xl font-bold">
           4<span className="text-lime-400">👁</span>4
         </h1>
