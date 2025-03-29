@@ -45,7 +45,7 @@ const PricingSection = () => {
   return (
     <div className="bg-gray-100 py-16">
       <div className="max-w-5xl mx-auto text-center">
-        <h2 className="text-2xl font-bold mb-8">Simple, Transparent Pricing</h2>
+        <h2 className="text-2xl font-bold mb-8 text-black">Simple, Transparent Pricing</h2>
         <div className="grid md:grid-cols-3 gap-6">
           {plans.map((plan, index) => (
             <div
