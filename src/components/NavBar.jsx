@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import "../css/NavBar.css";
 
 const NavBar = () => {
@@ -8,9 +9,9 @@ const NavBar = () => {
   return (
     <nav className="px-4 xl:px-32 relative border-b-2 shadow-xl bg-white w-full">
       <div className="flex justify-between items-center py-4">
-        <a href="/" className="font-bold text-2xl text-[var(--primary)]">
-          NERIST.STORE
-        </a>
+        <Link href="/" className="font-bold text-2xl text-[var(--primary)]">
+          CANHACK
+        </Link>
 
         <div className="hidden md:flex gap-8">
           {["Home", "Categories", "New", "About"].map((item) => (
@@ -23,16 +24,8 @@ const NavBar = () => {
             </Link>
           ))}
         </div>
-        <div>
-          <button
-            className="md:hidden text-gray-600"
-            onClick={() => setSidebarOpen(true)}
-          >
-            <HiOutlineMenuAlt3 size={28} />
-          </button>
-        </div>
 
-        <div>
+        <div className="md:hidden">
           <button
             className="md:hidden text-gray-600"
             onClick={() => setSidebarOpen(true)}
