@@ -33,7 +33,7 @@ const Login = () => {
     <>
       <NavBar />
       <div className="w-full h-screen flex flex-col items-center justify-center bg-white text-black">
-        <div className="w-full md:w-[500px] h-[80%] rounded-lg shadow-xl px-4 py-8">
+        <div className="w-full md:w-[500px] h-[70%] rounded-lg shadow-xl px-4 py-8">
           <div className="flex flex-col items-center justify-center">
             <img src="/images/logo.svg" alt="Logo" className="s-48" />
             <h1 className="text-3xl pt-8">Login to your account</h1>
