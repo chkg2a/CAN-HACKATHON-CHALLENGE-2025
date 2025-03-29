@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import ResumeSender from "./pages/ResumeSender";
 import ErrorPage from "./pages/ErrorPage"; // 404 error page
 import "./App.css";
-
+import ResumeExtractor from "./components/ResumeExtractor";
 function App() {
   return (
     <div className="h-screen flex justify-center w-screen">
